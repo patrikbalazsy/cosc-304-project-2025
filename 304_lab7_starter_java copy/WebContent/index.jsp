@@ -2,6 +2,7 @@
 <html>
 <head>
         <title>67th Street Grocery Main Page</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <h1 align="center">Welcome to 67th Street Grocery</h1>

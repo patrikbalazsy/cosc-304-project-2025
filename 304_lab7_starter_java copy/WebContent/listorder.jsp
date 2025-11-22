@@ -5,6 +5,7 @@
 <html>
 <head>
 <title>67th Street Grocery Order List</title>
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body style="text-align: center;">
 
@@ -57,19 +58,19 @@ try (Connection con = DriverManager.getConnection(url, uid, pw)) {
 
 				// Print out the order summary information
 				out.println(
-   					 "<table border='1' style='background-color:goldenrod; width:50%; margin: 0 auto;'>" +
-   					 "<tr><th colspan='2'>Order Summary Table</th></tr>" +
-   					 "<tr><td>Order ID</td><td>" + orderId + "</td></tr>" +
+   					 "<table class='order-table'>" +
+  					  "<tr><th colspan='2'>Order Summary</th></tr>" +
+  					  "<tr><td>Order ID</td><td>" + orderId + "</td></tr>" +
    					 "<tr><td>Order Date</td><td>" + orderDate + "</td></tr>" +
-    				 "<tr><td>Total Amount</td><td>" + currFormat.format(totalAmount) + "</td></tr>" +
-  					 //"<tr><td>Address</td><td>" + shiptoAddress + "</td></tr>" +
+   					 "<tr><td>Total Amount</td><td>" + currFormat.format(totalAmount) + "</td></tr>" +
+    				"<tr><td>Customer ID</td><td>" + customerId + "</td></tr>" +
+    				"<tr><td>Customer Name</td><td>" + firstName + " " + lastName + "</td></tr>" +
+    				"</table>"
+					 //"<tr><td>Address</td><td>" + shiptoAddress + "</td></tr>" +
   				     //"<tr><td>City</td><td>" + shiptoCity + "</td></tr>" +
     				 //"<tr><td>State</td><td>" + shiptoState + "</td></tr>" +
    					 //"<tr><td>Postal Code</td><td>" + shiptoPostalCode + "</td></tr>" +
     				 //"<tr><td>Country</td><td>" + shiptoCountry + "</td></tr>" +
-    				 "<tr><td>Customer ID</td><td>" + customerId + "</td></tr>" +
-					 "<tr><td>Customer Name</td><td>" + firstName + " " + lastName + "</td></tr>" +
-   					 "</table><br>"
 				);
 
 				// Write a query to retrieve the products in the order
@@ -81,8 +82,8 @@ try (Connection con = DriverManager.getConnection(url, uid, pw)) {
 				try (PreparedStatement pstmt = con.prepareStatement(query2)) {
 					pstmt.setInt(1, orderId);
 					try (ResultSet products = pstmt.executeQuery()) {
-						out.println("<table border='1' style='background-color:goldenrod; width:50%; margin: 0 auto;'>");
-						out.println("<tr><th colspan='2'>Product Table</th></tr>");
+						out.println("<table class='product-detail-table'>");
+						out.println("<tr><th colspan='2'>Product Details</th></tr>");
 						while (products.next()) {
                             String productName = products.getString("productName");
                             

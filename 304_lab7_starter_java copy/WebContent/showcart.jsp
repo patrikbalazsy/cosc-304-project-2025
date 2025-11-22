@@ -8,8 +8,9 @@
 <html>
 <head>
 <title>Your Shopping Cart</title>
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body style="text-align: center;">
+<body>
 
 <%
 // Get the current list of products
@@ -17,7 +18,8 @@
 HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
 
 if (productList == null)
-{	out.println("<H1>Your shopping cart is empty!</H1>");
+{	
+    out.println("<h1>Your shopping cart is empty!</h1>");
 	productList = new HashMap<String, ArrayList<Object>>();
 }
 else
@@ -25,13 +27,17 @@ else
 	NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
 	out.println("<h1>Your Shopping Cart</h1>");
-	out.print("<table border='1' style='background-color:pink; width:50%; margin: 0 auto;'><tr><th>Product Id</th><th>Product Name</th><th>Quantity</th>");
+
+    // UPDATED: Used 'order-table' class instead of inline pink background and border
+	out.print("<table class='order-table'>");
+    out.print("<tr><th>Product Id</th><th>Product Name</th><th>Quantity</th>");
 	out.println("<th>Price</th><th>Subtotal</th></tr>");
 
-	double total =0;
+	double total = 0;
 	Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
 	while (iterator.hasNext()) 
-	{	Map.Entry<String, ArrayList<Object>> entry = iterator.next();
+	{	
+        Map.Entry<String, ArrayList<Object>> entry = iterator.next();
 		ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
 		if (product.size() < 4)
 		{
@@ -39,10 +45,11 @@ else
 			continue;
 		}
 		
+        // UPDATED: Removed 'align' attributes. CSS handles the padding/alignment now.
 		out.print("<tr><td>"+product.get(0)+"</td>");
 		out.print("<td>"+product.get(1)+"</td>");
 
-		out.print("<td align=\"center\">"+product.get(3)+"</td>");
+		out.print("<td>"+product.get(3)+"</td>");
 		Object price = product.get(2);
 		Object itemqty = product.get(3);
 		double pr = 0;
@@ -65,19 +72,22 @@ else
 			out.println("Invalid quantity for product: "+product.get(0)+" quantity: "+qty);
 		}		
 
-		out.print("<td align=\"right\">"+currFormat.format(pr)+"</td>");
-		out.print("<td align=\"right\">"+currFormat.format(pr*qty)+"</td></tr>");
-		out.println("</tr>");
-		total = total +pr*qty;
+		out.print("<td>"+currFormat.format(pr)+"</td>");
+		out.print("<td>"+currFormat.format(pr*qty)+"</td></tr>");
+		total = total + pr*qty;
 	}
-	out.println("<tr><td colspan=\"4\" align=\"right\"><b>Order Total</b></td>"
-			+"<td align=\"right\">"+currFormat.format(total)+"</td></tr>");
+    
+    // UPDATED: Footer row for the total
+	out.println("<tr><td colspan='4' style='text-align:right;'><b>Order Total</b></td>"
+			+"<td>"+currFormat.format(total)+"</td></tr>");
 	out.println("</table>");
 
+    // The CSS automatically turns these links into buttons because they are inside <h2>
 	out.println("<h2><a href=\"checkout.jsp\">Check Out</a></h2>");
 }
 %>
-<h2><a href="listprod.jsp">Continue Shopping</a></h2>
-</body>
-</html> 
 
+<h2><a href="listprod.jsp">Continue Shopping</a></h2>
+
+</body>
+</html>

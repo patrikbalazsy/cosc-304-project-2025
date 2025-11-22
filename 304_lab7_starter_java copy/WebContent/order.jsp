@@ -10,8 +10,11 @@
 <html>
 <head>
 <title>67th Street Grocery Order Processing</title>
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body style="text-align: center;">
+<body>
+
+<div class="login-card" style="max-width: 600px;">
 
 <% 
 // Get customer id
@@ -19,20 +22,14 @@ String custId = request.getParameter("customerId");
 @SuppressWarnings({"unchecked"})
 HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
 
-// Determine if valid customer id was entered
-// Determine if there are products in the shopping cart
-// If either are not true, display an error message
-// Also handles the incase custId is blank
-
-// Validate if user ID is empty 
-
+// Validate if user ID is empty or cart is empty
 if (custId == null || custId.trim().isEmpty() || productList == null || productList.isEmpty()) {
-	out.println("<h2>Error, wrong Customer ID or your Cart is empty</h2>");
-	//Send back to the home page
-	out.println("<a href='shop.html'>Go back.</a>");
+	out.println("<h2 style='color: #e74c3c;'>Error</h2>");
+    out.println("<p>Invalid Customer ID or your Cart is empty.</p>");
+	// Styled button
+	out.println("<a href='index.jsp' class='button'>Return Home</a>");
 	return;
 }
-
 
 // Make connection
 String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
@@ -42,35 +39,28 @@ String pw = "304#sa#pw";
 try (Connection con = DriverManager.getConnection(url, uid, pw)){
 
 	// Validate if user ID is in data base
-
 	String validateQuery = "SELECT customerId from customer WHERE customerId = ?";
-
 	PreparedStatement pstmt = con.prepareStatement(validateQuery);
-
 	pstmt.setString(1, custId);
 	ResultSet checkSet = pstmt.executeQuery();
 	
 	if(checkSet.next()){
-		out.println("<h1>Customer ID " + custId + " verified.</h1>");
+        // Display verification quietly
+		out.println("<p style='color: green; font-size: 0.9rem;'>Customer ID " + custId + " verified.</p>");
 	} else {
-		out.println("<h1>Error: Customer ID " + custId + " is not in the DB.</h1>");
+		out.println("<h2 style='color: #e74c3c;'>Error</h2>");
+        out.println("<p>Customer ID " + custId + " is not in the database.</p>");
+        out.println("<a href='checkout.jsp' class='button'>Try Again</a>");
 		return;
 	}
 
-	// End of changes
-
 	double totalAmount = 0.0;
-
 	NumberFormat currency = NumberFormat.getCurrencyInstance();
-
-	Date utilDate = new Date(); 
-    java.sql.Timestamp sqlOrderDate = new java.sql.Timestamp(utilDate.getTime());
+	Date utilDate = new Date();
+	java.sql.Timestamp sqlOrderDate = new java.sql.Timestamp(utilDate.getTime());
 
 	// Save order information to database
-
 	String orderQuery = "INSERT INTO ordersummary (customerId, totalAmount, orderDate) VALUES (?, ?, ?)";
-
-	// Use retrieval of auto-generated keys.
 	PreparedStatement stmtOrder = con.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS);		
 	stmtOrder.setString(1, custId);
 	stmtOrder.setDouble(2, 0.0);
@@ -81,22 +71,22 @@ try (Connection con = DriverManager.getConnection(url, uid, pw)){
 	keys.next();
 	int orderId = keys.getInt(1);
 	
-	// Insert each item into OrderProduct table using OrderId from previous INSERT
-
+	// Insert each item into OrderProduct table
 	String itemQuery = "INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (?, ?, ?, ?)";
 	PreparedStatement stmtItems = con.prepareStatement(itemQuery);		
 
-	// Here is the code to traverse through a HashMap
-	// Each entry in the HashMap is an ArrayList with item 0-id, 1-name, 2-quantity, 3-price
 	Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
 	while (iterator.hasNext())
 	{ 
 		Map.Entry<String, ArrayList<Object>> entry = iterator.next();
 		ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
 		String productId = (String) product.get(0);
-        String price = String.valueOf(product.get(3));
-		double pr = Double.parseDouble(price);
-		int qty = (int) Double.parseDouble(String.valueOf(product.get(2)));
+        
+        // FIXED BUG: Indexes were swapped in original file. 
+        // Index 2 is Price (String), Index 3 is Quantity (Integer) based on addcart.jsp
+		String priceStr = (String) product.get(2);
+        double pr = Double.parseDouble(priceStr);
+        int qty = ((Integer) product.get(3)).intValue();
 			
 		totalAmount += pr * qty;
 
@@ -110,7 +100,7 @@ try (Connection con = DriverManager.getConnection(url, uid, pw)){
 
 	stmtItems.executeBatch();
 
-	//Finally update total amount into the data
+	//Finally update total amount
 	String updateQuery = "UPDATE ordersummary SET totalAmount = ? WHERE orderId = ?";
 	PreparedStatement stmtUpdate = con.prepareStatement(updateQuery);
 	stmtUpdate.setDouble(1, totalAmount);
@@ -118,16 +108,26 @@ try (Connection con = DriverManager.getConnection(url, uid, pw)){
 	stmtUpdate.executeUpdate();
 
 	// Print out order summary
-	out.println("<h1>Order Placed! Total amount is " + currency.format(totalAmount) + "</h1>");
-	out.println("<p>Thank you, here are your details: Customer ID: " + custId + ", Order ID: " + orderId + "</p>");
+    // Using the 'smooth' card look
+	out.println("<h1 style='color: #27ae60;'>Order Placed!</h1>");
+    out.println("<h3>Total: " + currency.format(totalAmount) + "</h3>");
+    
+    // Summary Table
+    out.println("<table class='order-table' style='margin-top: 20px;'>");
+    out.println("<tr><td>Order Reference ID</td><td>" + orderId + "</td></tr>");
+    out.println("<tr><td>Customer ID</td><td>" + custId + "</td></tr>");
+    out.println("<tr><td>Date</td><td>" + utilDate + "</td></tr>");
+    out.println("</table>");
 
-	// Clear cart if order placed successfully
+	// Clear cart
 	session.removeAttribute("productList");
+    
+    out.println("<br><a href='index.jsp' class='button'>Return to Home</a>");
 
 } catch (SQLException e){
-	out.println("SQLException " + e);
+	out.println("<h3 style='color:red'>Error Processing Order</h3>");
+    out.println("<p>"+e+"</p>");
 }
 %>
-</BODY>
-</HTML>
-
+</div> </body>
+</html>

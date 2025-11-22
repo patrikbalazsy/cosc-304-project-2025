@@ -5,6 +5,7 @@
 <html>
 <head>
 <title>67th Street Grocery</title>
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body style="text-align: center;">
 
@@ -71,12 +72,12 @@ try (Connection con = DriverManager.getConnection(url, uid, pw)) {
 					// For each product create a link of the form
 					// addcart.jsp?id=productId&name=productName&price=productPrice
 					out.println(
-						"<table border='1' style='background-color: lightskyblue; width:50%; margin: 0 auto;'>" +
-						"<tr><th colspan='2'><a href='product.jsp?id=" + productId + "'>" + productName + "</a></th></tr>" +
-						"<tr><td>Product Name</td><td>" + productName + "</td></tr>" +
-						"<tr><td>Product Price</td><td>" + currencyFormat.format(productPrice) + "</td></tr>" +
-						"<tr><td>Add to Cart:</td><td>" + "<a href='" + link + "'>Link</a>" + "</td></tr>" +
-						"</table><br>"
+						"<table class='product-table'>" +
+   						"<tr><th colspan='2'><a href='product.jsp?id=" + productId + "'>" + productName + "</a></th></tr>" +
+   						"<tr><td>Product Name</td><td>" + productName + "</td></tr>" +
+    					"<tr><td>Product Price</td><td>" + currencyFormat.format(productPrice) + "</td></tr>" +
+    					"<tr><td>Action</td><td><a href='" + link + "' class='button'>Add to Cart</a></td></tr>" +
+  	  					"</table>"
 					);
 				}
 			} else {

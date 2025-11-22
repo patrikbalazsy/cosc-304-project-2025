@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>67th Street CheckOut Line</title>
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body style="text-align: center;">
 

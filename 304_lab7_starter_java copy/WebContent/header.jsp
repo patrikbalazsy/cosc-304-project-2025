@@ -1,2 +1,2 @@
-<H1 align="center"><font face="cursive" color="#3399FF"><a href="index.jsp">67th Street Grocery</a></font></H1>      
+<h1 align="center"><a href="index.jsp" style="text-decoration:none; color:#3399FF;">67th Street Grocery</a></h1>      
 <hr>
