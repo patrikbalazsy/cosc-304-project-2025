@@ -4,122 +4,216 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>67th Street Grocery Order List</title>
+<title>Order History</title>
 <link rel="stylesheet" type="text/css" href="style.css">
+<style>
+    /* Industrial Order List Styles */
+    .order-card {
+        border: 3px solid #000;
+        margin-bottom: 40px;
+        background: #fff;
+        page-break-inside: avoid;
+    }
+
+    .order-header {
+        background-color: #000;
+        color: #fff;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .order-title {
+        font-size: 1.2rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin: 0;
+    }
+
+    .order-meta {
+        font-family: monospace;
+        font-size: 1rem;
+    }
+
+    .order-body {
+        padding: 20px;
+    }
+
+    /* Summary Section */
+    .summary-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+        border-bottom: 2px dashed #000;
+        padding-bottom: 20px;
+    }
+
+    .summary-item label {
+        display: block;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .summary-item span {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    /* Product Table */
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .product-table th {
+        text-align: left;
+        border-bottom: 3px solid #000;
+        padding: 10px;
+        text-transform: uppercase;
+        font-weight: 900;
+    }
+
+    .product-table td {
+        padding: 15px 10px;
+        border-bottom: 1px solid #ccc;
+        vertical-align: middle;
+    }
+
+    .total-row {
+        text-align: right;
+        font-size: 1.5rem;
+        font-weight: 900;
+        margin-top: 20px;
+        text-transform: uppercase;
+    }
+    
+    .return-btn {
+        display: inline-block;
+        border: 3px solid #000;
+        padding: 10px 30px;
+        color: #000;
+        text-decoration: none;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-top: 20px;
+    }
+    
+    .return-btn:hover {
+        background: #000;
+        color: #fff;
+    }
+</style>
 </head>
-<body style="text-align: center;">
+<body>
 
-<h1>Order List</h1><br>
+<div class="content-container">
+    <h1 style="text-align: left; text-transform: uppercase; font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">Order History</h1>
 
-<%
-//Note: Forces loading of SQL Server driver
-try
-{	// Load driver class
-	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-}
-catch (java.lang.ClassNotFoundException e)
-{
-	out.println("ClassNotFoundException: " + e);
-}
+    <%
+    try {
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    } catch (java.lang.ClassNotFoundException e) {
+        out.println("<div class='error'>ClassNotFoundException: " + e + "</div>");
+    }
 
-// Useful code for formatting currency values:
-// out.println(currFormat.format(5.0));  // Prints $5.00
-NumberFormat currFormat = NumberFormat.getCurrencyInstance();
+    NumberFormat currFormat = NumberFormat.getCurrencyInstance();
+    String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
+    String uid = "sa";
+    String pw = "304#sa#pw";
 
-// Load orders db http://localhost/shop/loaddata.jsp *Already did once*
+    try (Connection con = DriverManager.getConnection(url, uid, pw)) {
+        String query = "SELECT orderId, orderDate, totalAmount, ordersummary.customerId, firstName, lastName FROM ordersummary JOIN customer ON ordersummary.customerId = customer.customerId ORDER BY ordersummary.orderId DESC";
+        
+        try (Statement stmt = con.createStatement()) {
+            ResultSet orders = stmt.executeQuery(query);
 
-// Make connection
-String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
-String uid = "sa";
-String pw = "304#sa#pw";
+            while (orders.next()) {
+                int orderId = orders.getInt("orderId");
+                Date orderDate = orders.getDate("orderDate");
+                double totalAmount = orders.getDouble("totalAmount");
+                int customerId = orders.getInt("customerId");
+                String firstName = orders.getString("firstName");
+                String lastName = orders.getString("lastName");
+    %>
+                <div class="order-card">
+                    <div class="order-header">
+                        <h3 class="order-title">Order #<%= orderId %></h3>
+                        <span class="order-meta"><%= orderDate %></span>
+                    </div>
+                    
+                    <div class="order-body">
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <label>Customer Name</label>
+                                <span><%= firstName %> <%= lastName %></span>
+                            </div>
+                            <div class="summary-item">
+                                <label>Customer ID</label>
+                                <span><%= customerId %></span>
+                            </div>
+                        </div>
 
-try (Connection con = DriverManager.getConnection(url, uid, pw)) {
-
-	// Write query to retrievea all order summary records
-	String query = "SELECT orderId, orderDate, totalAmount, ordersummary.customerId, firstName, lastName FROM ordersummary JOIN customer ON ordersummary.customerId = customer.customerId ORDER BY ordersummary.orderId Desc";
-
-	try (Statement stmt = con.createStatement())
-		{
-			ResultSet orders = stmt.executeQuery(query);
-
-			// For each order in the ResultSet
-			while (orders.next()) {
-				int orderId = orders.getInt("orderId");
-				Date orderDate = orders.getDate("orderDate");
-				double totalAmount = orders.getDouble("totalAmount");
-				//String shiptoAddress = orders.getString("shiptoAddress");
-				//String shiptoCity = orders.getString("shiptoCity");
-				//String shiptoState = orders.getString("shiptoState");
-				//String shiptoPostalCode = orders.getString("shiptoPostalCode");
-				//String shiptoCountry = orders.getString("shiptoCountry");
-				int customerId = orders.getInt("customerId");
-				String firstName = orders.getString("firstName");
-				String lastName = orders.getString("lastName");
-
-				// Print out the order summary information
-				out.println(
-   					 "<table class='order-table'>" +
-  					  "<tr><th colspan='2'>Order Summary</th></tr>" +
-  					  "<tr><td>Order ID</td><td>" + orderId + "</td></tr>" +
-   					 "<tr><td>Order Date</td><td>" + orderDate + "</td></tr>" +
-   					 "<tr><td>Total Amount</td><td>" + currFormat.format(totalAmount) + "</td></tr>" +
-    				"<tr><td>Customer ID</td><td>" + customerId + "</td></tr>" +
-    				"<tr><td>Customer Name</td><td>" + firstName + " " + lastName + "</td></tr>" +
-    				"</table>"
-					 //"<tr><td>Address</td><td>" + shiptoAddress + "</td></tr>" +
-  				     //"<tr><td>City</td><td>" + shiptoCity + "</td></tr>" +
-    				 //"<tr><td>State</td><td>" + shiptoState + "</td></tr>" +
-   					 //"<tr><td>Postal Code</td><td>" + shiptoPostalCode + "</td></tr>" +
-    				 //"<tr><td>Country</td><td>" + shiptoCountry + "</td></tr>" +
-				);
-
-				// Write a query to retrieve the products in the order
-				//   - Use a PreparedStatement as will repeat this query many times
-				// For each product in the order
-				// Write out product information 
-
-				String query2 = "SELECT productName, productImage FROM orderproduct JOIN product ON orderproduct.productId = product.productId WHERE orderId = ?";
-				try (PreparedStatement pstmt = con.prepareStatement(query2)) {
-					pstmt.setInt(1, orderId);
-					try (ResultSet products = pstmt.executeQuery()) {
-						out.println("<table class='product-detail-table'>");
-						out.println("<tr><th colspan='2'>Product Details</th></tr>");
-						while (products.next()) {
+                        <table class="product-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70%;">Product Item</th>
+                                    <th style="width: 30%;">Preview</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    <%
+                // Updated Query: Selects 'productImageURL' instead of 'productImage'
+                String query2 = "SELECT productName, productImageURL FROM orderproduct JOIN product ON orderproduct.productId = product.productId WHERE orderId = ?";
+                try (PreparedStatement pstmt = con.prepareStatement(query2)) {
+                    pstmt.setInt(1, orderId);
+                    try (ResultSet products = pstmt.executeQuery()) {
+                        while (products.next()) {
                             String productName = products.getString("productName");
                             
-							//Bonus: Print chai product image
-                            // Get the blob data from productImage data
-                            byte[] imgData = products.getBytes("productImage");
-                            String chaiImage = "";
+                            // Updated Image Logic: Uses the URL string directly
+                            String imageURL = products.getString("productImageURL");
+                            String displayImage = "";
                             
-                            if (imgData != null && productName.equals("Chai")) {
-
-                                // Use Base64 encoder from Java util
-                                String base64Image = java.util.Base64.getEncoder().encodeToString(imgData);
-                                
-                                // BLOB data header information with base64 embedded
-                                chaiImage = "<img src='data:image/jpeg;base64," + base64Image + "' style='width: 478px; height: 478px;' alt=''>";
+                            if (imageURL != null && !imageURL.isEmpty()) {
+                                displayImage = "<img src='" + imageURL + "' style='max-width: 100px; max-height: 100px; border: 1px solid #000;'>";
+                            } else {
+                                displayImage = "<span style='color:#999; font-size:0.8rem;'>No Preview</span>";
                             }
-
-                            out.println("<tr><td>" + productName + "</td><td>Product</td></tr>");
-                            
-                            if (!chaiImage.isEmpty()) {
-                                out.println("<tr><td>Mmm</td><td>" + chaiImage + "</td></tr>");
-                            }
+    %>
+                                <tr>
+                                    <td><strong><%= productName %></strong></td>
+                                    <td><%= displayImage %></td>
+                                </tr>
+    <%
                         }
-                        out.println("</table><br>");
-					}
-				}
-			}
+                    }
+                }
+    %>
+                            </tbody>
+                        </table>
 
-			// Close connection
-			// The try and catch block will automatically close all connections when exited
+                        <div class="total-row">
+                            Total: <%= currFormat.format(totalAmount) %>
+                        </div>
+                    </div>
+                </div>
+    <%
+            }
+        }
+    } catch (SQLException e) {
+        out.println("<h3 style='color:red'>Error loading orders: " + e.getMessage() + "</h3>");
+    }
+    %>
 
-		} 
-		
-	} catch (SQLException e) {
-			out.println("SQLException " + e);
-	}
-%>
+    <div style="text-align: center; margin-bottom: 50px;">
+        <a href="index.jsp" class="return-btn">Return to Home</a>
+    </div>
+</div>
+
 </body>
 </html>

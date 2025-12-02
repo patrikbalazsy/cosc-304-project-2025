@@ -87,7 +87,7 @@ else
 }
 %>
 
-<h2><a href="listprod.jsp">Continue Shopping</a></h2>
+<h2><a href="home.jsp">Continue Shopping</a></h2>
 
 </body>
 </html>

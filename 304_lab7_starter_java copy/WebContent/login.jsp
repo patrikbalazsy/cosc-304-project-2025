@@ -6,29 +6,35 @@
 </head>
 <body>
 
-<div class="login-card">
-    <h3>Please Login to System</h3>
+<div class="content-container">
+    <div class="form-container">
+        <h3 style="text-align: center;">System Access</h3>
 
-    <%
-    // Print prior error login message if present
-    if (session.getAttribute("loginMessage") != null)
-        out.println("<p style='color:red'>" + session.getAttribute("loginMessage").toString() + "</p>");
-    %>
+        <%
+        String msg = (String) session.getAttribute("loginMessage");
+        if (msg != null) {
+            out.println("<div class='error-message'>" + msg + "</div>");
+        }
+        %>
 
-    <form name="MyForm" method="post" action="validateLogin.jsp">
-        
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" size="10" maxlength="10" placeholder="Enter Username">
+        <form name="MyForm" method="post" action="validateLogin.jsp">
+            <div class="search-label">Username:</div>
+            <input type="text" name="username" required>
+            
+            <div class="search-label" style="margin-top: 15px;">Password:</div>
+            <input type="password" name="password" required>
+
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <input type="submit" value="Log In">
+                <input type="reset" value="Clear">
+            </div>
+        </form>
+
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 3px solid #000; text-align: center;">
+            <p>New User? <a href="createUser.jsp" style="font-weight: 900; color: #000;">Create Account</a></p>
+            <p><a href="forgotPassword.jsp" style="color: #666;">Forgot Password?</a></p>
         </div>
-
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" size="10" maxlength="10" placeholder="Enter Password">
-        </div>
-
-        <input class="submit" type="submit" name="Submit2" value="Log In">
-    </form>
+    </div>
 </div>
 
 </body>
