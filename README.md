@@ -86,15 +86,16 @@ A. Image Generation
    - Tool: Gemini (Banana Nano Pro 3)
    - Usage: Generated 10+ high-quality images for products and the logo 
      using detailed prompts.
-   - Log: https://gemini.google.com/u/1/app/f9dedcce85b33f45?pageId=none
+   - Log: https://gemini.google.com/share/8d13f1fc9126
 
-B. Styling & SQL
+B. Styling, SQL, & Troubleshooting
    - Tool: Gemini Pro 3
    - Usage: 
      1. CSS: Modified global styles (styles.css) to ensure robust 
         responsiveness without manual coding.
      2. SQL DDL: Generated INSERT statements for all 40 products to 
         populate the database efficiently.
+     3. General troubleshooting.
    - Log: https://gemini.google.com/u/1/app/256fd703a07c454d?pageId=none
 
 
