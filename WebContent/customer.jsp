@@ -1,169 +1,66 @@
+<%@ page import="java.sql.*" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Customer Profile</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 <style>
-    /* Page-specific styles to ensure the table looks good */
-    .profile-header {
-        text-align: left;
-        font-size: 2rem;
-        font-weight: 900;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-    }
-
-    .profile-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-    }
-
-    .profile-table td {
-        border: 3px solid #000;
-        padding: 15px;
-        font-size: 1rem;
-    }
-
-    .label-col {
-        background-color: #f0f0f0;
-        font-weight: 900;
-        text-transform: uppercase;
-        width: 30%;
-    }
-
-    .data-col {
-        background-color: #fff;
-    }
-
-    .action-bar {
-        margin-top: 30px;
-        display: flex;
-        gap: 20px;
-    }
-
-    .btn {
-        flex: 1;
-        padding: 15px;
-        text-align: center;
-        border: 3px solid #000;
-        text-decoration: none;
-        font-weight: 900;
-        text-transform: uppercase;
-        color: #000;
-        display: block;
-    }
-
-    .btn-primary {
-        background-color: #000;
-        color: #fff;
-    }
-
-    .btn-primary:hover {
-        background-color: #333;
-    }
-
-    .btn-secondary:hover {
-        background-color: #e0e0e0;
-    }
+    /* Industrial Profile Styles */
+    .profile-card { border: 3px solid #000; padding: 40px; max-width: 800px; margin: 0 auto; background: #fff; }
+    .data-row { display: flex; border-bottom: 1px solid #ccc; padding: 15px 0; }
+    .data-label { width: 30%; font-weight: 900; text-transform: uppercase; color: #666; }
+    .data-value { width: 70%; font-weight: bold; }
+    .btn { border: 3px solid #000; padding: 10px 20px; text-decoration: none; font-weight: 900; text-transform: uppercase; color: #000; display: inline-block; margin-top: 20px;}
+    .btn:hover { background: #000; color: #fff; }
 </style>
 </head>
 <body>
 
-<%@ include file="auth.jsp"%>
-<%@ page import="java.text.NumberFormat" %>
-<%@ include file="jdbc.jsp" %>
-<%@ page import="java.sql.*" %>
-
 <div class="content-container">
+    <%
+    String userName = (String) session.getAttribute("authenticatedUser");
+    if(userName == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
     
-    <div class="form-container" style="max-width: 800px; margin: 0 auto; padding: 40px; border: 3px solid #000;">
-        <h2 class="profile-header">Customer Profile</h2>
+    String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
+    String uid = "sa";
+    String pw = "304#sa#pw";
 
-        <%
-        String userName = (String) session.getAttribute("authenticatedUser");
-        String sql = "SELECT * FROM customer WHERE userid = ?";
-        
-        try {
-            getConnection();
+    try {
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        try (Connection con = DriverManager.getConnection(url, uid, pw)) {
+            String sql = "SELECT * FROM customer WHERE userid = ?";
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
                 stmt.setString(1, userName);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        // Retrieve data
-                        int customerId = rs.getInt("customerId");
-                        String userid = rs.getString("userid");
-                        String firstName = rs.getString("firstName");
-                        String lastName = rs.getString("lastName");
-                        String email = rs.getString("email");
-                        String phonenum = rs.getString("phonenum");
-                        String address = rs.getString("address");
-                        String city = rs.getString("city");
-                        String state = rs.getString("state");
-                        String postalCode = rs.getString("postalCode");
-                        String country = rs.getString("country");
-        %>
-                        <table class="profile-table">
-                            <tr>
-                                <td class="label-col">Customer ID</td>
-                                <td class="data-col"><%= customerId %></td>
-                            </tr>
-                            <tr>
-                                <td class="label-col">User ID</td>
-                                <td class="data-col"><%= userid %></td>
-                            </tr>
-                            <tr>
-                                <td class="label-col">Full Name</td>
-                                <td class="data-col"><%= firstName %> <%= lastName %></td>
-                            </tr>
-                            <tr>
-                                <td class="label-col">Email</td>
-                                <td class="data-col"><%= email %></td>
-                            </tr>
-                            <tr>
-                                <td class="label-col">Phone</td>
-                                <td class="data-col"><%= phonenum %></td>
-                            </tr>
-                            <tr>
-                                <td class="label-col">Address</td>
-                                <td class="data-col"><%= address %></td>
-                            </tr>
-                            <tr>
-                                <td class="label-col">City</td>
-                                <td class="data-col"><%= city %></td>
-                            </tr>
-                            <tr>
-                                <td class="label-col">State</td>
-                                <td class="data-col"><%= state %></td>
-                            </tr>
-                            <tr>
-                                <td class="label-col">Postal Code</td>
-                                <td class="data-col"><%= postalCode %></td>
-                            </tr>
-                            <tr>
-                                <td class="label-col">Country</td>
-                                <td class="data-col"><%= country %></td>
-                            </tr>
-                        </table>
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+    %>
+        <h1 style="text-align: center; text-transform: uppercase; font-weight: 900; margin-bottom: 30px;">Customer Profile</h1>
+        
+        <div class="profile-card">
+            <div class="data-row"><div class="data-label">Customer ID</div><div class="data-value"><%= rs.getInt("customerId") %></div></div>
+            <div class="data-row"><div class="data-label">User ID</div><div class="data-value"><%= rs.getString("userId") %></div></div>
+            <div class="data-row"><div class="data-label">Full Name</div><div class="data-value"><%= rs.getString("firstName") %> <%= rs.getString("lastName") %></div></div>
+            <div class="data-row"><div class="data-label">Email</div><div class="data-value"><%= rs.getString("email") %></div></div>
+            <div class="data-row"><div class="data-label">Phone</div><div class="data-value"><%= rs.getString("phonenum") %></div></div>
+            <div class="data-row"><div class="data-label">Address</div><div class="data-value"><%= rs.getString("address") %></div></div>
+            <div class="data-row"><div class="data-label">City / State</div><div class="data-value"><%= rs.getString("city") %>, <%= rs.getString("state") %></div></div>
+            <div class="data-row"><div class="data-label">Country</div><div class="data-value"><%= rs.getString("country") %></div></div>
 
-                        <div class="action-bar">
-                            <a href="index.jsp" class="btn btn-secondary">&lt; Return Home</a>
-                            <a href="userProfile.jsp" class="btn btn-primary">Edit Information</a>
-                        </div>
-        <%
-                    } else {
-                        out.println("<h2 style='color:red;'>Error: Customer profile not found.</h2>");
-                    }
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <a href="index.jsp" class="btn">Return Home</a>
+                <a href="userProfile.jsp" class="btn" style="background: #000; color: #fff;">Edit Profile</a>
+            </div>
+        </div>
+    <%
                 }
             }
-        } catch (SQLException e) {
-            out.println("<h3 style='color:red;'>Database Error: " + e.getMessage() + "</h3>");
-        } finally {
-            closeConnection();
         }
-        %>
-    </div>
+    } catch (Exception e) { out.println(e); }
+    %>
 </div>
-
 </body>
 </html>
