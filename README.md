@@ -1,76 +1,105 @@
-## Cloud Eight Spray Paint | Online Shop Documentation
+CLOUD EIGHT SPRAY PAINT | ONLINE SHOP DOCUMENTATION
+===================================================
 
-Team #67
+TEAM #67
+Patrik Balazsy - patrikpbalazsy@gmail.com
+Leo Cabral     - [Insert Email Here]
 
-Patrik Balazsy patrikpbalazsy@gmail.com
-Leo Cabral "email"
-
----------------------------------------------------------
-## Setup
-
-- clone the repo onto your local machine and run the following in terminal
-git clone https://github.com/patrikbalazsy/cosc-304-project-2025
-
-- navigate into the project root (depends on where you clone the repo)
-cd cosc-304-project-2025
-  
-- make sure docker desktop is up and then start the container from project root
-docker compose build (first time)
-docker compose up -d
-
--To turn off late use
-docker compose down
-
--Currently data must be manually loaded since we are not cloud hosting the page, run that in your browser
-http://localhost/shop/loaddata.jsp
-
--Then access site 
-http://localhost/shop/index.jsp
 
 ---------------------------------------------------------
-
-## Walkthrough
-
-We focused our extra effort on the sites user experience.
-'''index.jsp''' starts by setting the site with a hero-style landing page and sets the vibe for the home page 
-
-In the homepage the user is immediately greeted with product listings. This is intentional, and lets the site have flow.
-The user can continue to scroll down, search, or access another feature like login
-
-Each listing has an add card button, and the user can click on a listing to see more details
-
-The site should feel intuitive and features are visible
-
+1. SETUP & INSTALLATION
 ---------------------------------------------------------
 
-##Pre-existing user ids and passwords respectively;
+[Step 1] Clone the Repository
+Clone the repo onto your local machine and navigate into the project root:
 
-'arnold' , '304Arnold!'
-'bobby' , '304Bobby!'
-'candace' , '304Candace!'
-'darren' , '304Darren!'
-'beth' , '304Beth!'
+    > git clone https://github.com/patrikbalazsy/cosc-304-project-2025
+    > cd cosc-304-project-2025
 
----------------------------------------------------------
 
-## Use of AI and other sources
+[Step 2] Docker Configuration
+Ensure Docker Desktop is running, then start the container from the project root.
 
-Non AI sources: Hero-Landing page image from pexels
-Pre-existing site framework: COSC 304 labs 6-9
--The java pathway for development stream (Uses JDBC to connect to local SQL database)
+    > docker compose build   (Run only on first setup)
+    > docker compose up -d   (Start in detached mode)
 
-We used AI in many area of our project
+    Note: To turn off later, use:
+    > docker compose down
 
--Image creation: We used Gemini's latest Banana Nano Pro 3 to generate over 10 high quality images of our products and logo given detailed prompts
-Link: https://gemini.google.com/u/1/app/f9dedcce85b33f45?pageId=none
 
--Styling + SQL DDL product insertion: We used Gemini Pro 3 to modify/enhance our global styles especially in styles.css. We specifically saved time here from having to manually 
-  add robust responsiveness, and other styling elements to our site.
--Product Insertion: We also used Gemini Pro 3 to write insert statements since we didn't want to write them for all 40 products in the DDL.
-Link: https://gemini.google.com/u/1/app/256fd703a07c454d?pageId=none
+[Step 3] Load Data & Access
+Since the application is not cloud-hosted, data must be manually loaded.
+
+    1. Initialize Database: http://localhost/shop/loaddata.jsp
+    2. Launch Site:         http://localhost/shop/index.jsp
+
 
 ---------------------------------------------------------
+2. WALKTHROUGH
+---------------------------------------------------------
 
-## TO-DO:
+We focused our extra effort on the site's User Experience (UX).
 
-Add feature marking
+- Landing Page: 'index.jsp' initializes the site with a "Hero-style" landing 
+  page to establish the visual identity.
+
+- Product Flow: Users are immediately greeted with product listings upon 
+  entering the homepage. This intentional design creates an immediate shopping flow.
+
+- Navigation: Users can scroll, search, or access utility features (like Login) easily.
+
+- Interactions: 
+  * Every listing features an "Add to Cart" button.
+  * Clicking a listing reveals a "Product Detail" view.
+
+The site is designed to feel intuitive with highly visible feature sets.
+
+
+---------------------------------------------------------
+3. TEST CREDENTIALS
+---------------------------------------------------------
+
+Use the following pre-existing user IDs and passwords for testing:
+
+User ID      Password
+----------   -----------
+arnold       304Arnold!
+bobby        304Bobby!
+candace      304Candace!
+darren       304Darren!
+beth         304Beth!
+
+
+---------------------------------------------------------
+4. USE OF AI & EXTERNAL SOURCES
+---------------------------------------------------------
+
+[External Assets (Non-AI)]
+- Hero Image: Sourced from Pexels.
+- Site Framework: Based on COSC 304 Labs 6-9.
+- Backend: Java development stream using JDBC for local SQL database connection.
+
+[AI Implementation]
+We utilized AI tools to enhance several areas of the project:
+
+A. Image Generation
+   - Tool: Gemini (Banana Nano Pro 3)
+   - Usage: Generated 10+ high-quality images for products and the logo 
+     using detailed prompts.
+   - Log: https://gemini.google.com/u/1/app/f9dedcce85b33f45?pageId=none
+
+B. Styling & SQL
+   - Tool: Gemini Pro 3
+   - Usage: 
+     1. CSS: Modified global styles (styles.css) to ensure robust 
+        responsiveness without manual coding.
+     2. SQL DDL: Generated INSERT statements for all 40 products to 
+        populate the database efficiently.
+   - Log: https://gemini.google.com/u/1/app/256fd703a07c454d?pageId=none
+
+
+---------------------------------------------------------
+5. TO-DO
+---------------------------------------------------------
+
+[ ] Add feature marking
