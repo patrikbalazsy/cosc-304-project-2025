@@ -3,7 +3,7 @@ CLOUD EIGHT SPRAY PAINT | ONLINE SHOP DOCUMENTATION
 
 TEAM #67
 Patrik Balazsy - patrikpbalazsy@gmail.com
-Leo Cabral     - [Insert Email Here]
+Leo Cabral     - leocabral11xd@gmail.com
 
 
 ---------------------------------------------------------
