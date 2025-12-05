@@ -37,7 +37,7 @@
             </form>
             
             <br>
-            <a href="login.jsp" style="color: #000; font-weight: bold; text-decoration: none;">&lt; Return to Login</a>
+            <a href="login.jsp" style="color: #000; font-weight: bold; text-decoration: none;">Return to Login</a>
         </div>
     </div>
 

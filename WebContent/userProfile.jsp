@@ -115,7 +115,6 @@
     String msg = "";
     String msgType = "";
 
-    // 1. HANDLE FORM SUBMISSION (UPDATE)
     if ("POST".equalsIgnoreCase(request.getMethod())) {
         try {
             getConnection();
@@ -149,7 +148,6 @@
         }
     }
 
-    // 2. LOAD CURRENT DATA
     // Variables to hold current data
     String password="", firstName="", lastName="", email="", phonenum="", address="", city="", state="", postalCode="", country="";
     
@@ -180,7 +178,7 @@
 %>
 
 <div class="content-container">
-    <h1>Modify User Settings</h1>
+    <h1>Edit User Profile</h1>
     
     <div class="form-container">
         <% if(!msg.isEmpty()) { %>
@@ -223,7 +221,7 @@
         </form>
     </div>
     
-    <a href="customer.jsp" class="return-link">&lt; Return to Profile View</a>
+    <a href="customer.jsp" class="return-link">Return to Profile View</a>
 </div>
 
 </body>

@@ -55,8 +55,9 @@
 %>
         <div class="cart-container" style="text-align: center;">
             <h1 class="cart-header">Access Denied</h1>
-            <p style="margin-bottom: 20px;">You must be logged in to view your manifest.</p>
+            <p style="margin-bottom: 20px;">You must be logged in to view your cart.</p>
             <a href="login.jsp" class="btn btn-primary">Login</a>
+            <a href="home.jsp" class="btn btn-primary">Home</a>
         </div>
 <%
     } else {
@@ -70,14 +71,14 @@
         }
 %>
     <div class="cart-container">
-        <h1 class="cart-header">Current Manifest (<%= userName %>)</h1>
+        <h1 class="cart-header">Current Items In Your Cart (<%= userName %>)</h1>
 
         <%
             if (productList.isEmpty()) {
         %>
                 <h3 style="text-align:center; padding: 50px;">System Status: Empty Load</h3>
                 <div style="text-align:center;">
-                    <a href="index.jsp" class="btn btn-secondary">Return to Catalog</a>
+                    <a href="home.jsp" class="btn btn-secondary">Return to Catalog</a>
                 </div>
         <%
             } else {
@@ -133,7 +134,7 @@
                 </div>
 
                 <div class="action-buttons">
-                    <a href="index.jsp" class="btn btn-secondary">Continue Shopping</a>
+                    <a href="home.jsp" class="btn btn-secondary">Continue Shopping</a>
                     <a href="checkout.jsp" class="btn btn-primary">Proceed to Checkout</a>
                 </div>
         <%

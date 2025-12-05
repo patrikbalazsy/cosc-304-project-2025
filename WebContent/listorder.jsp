@@ -25,8 +25,6 @@
     <h1 style="text-align: left; text-transform: uppercase; font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">Order History</h1>
 
     <%
-    // This is likely where your 'Duplicate local variable' error came from 
-    // when you pasted this file into listprod.jsp.
     String userName = (String) session.getAttribute("authenticatedUser");
     if (userName == null) {
         response.sendRedirect("login.jsp");
@@ -72,7 +70,6 @@
                             </thead>
                             <tbody>
     <%
-                // Updated Query to get Quantity and Price
                 String query2 = "SELECT op.productId, op.quantity, op.price, p.productName FROM orderproduct op JOIN product p ON op.productId = p.productId WHERE orderId = ?";
                 try (PreparedStatement pstmt = con.prepareStatement(query2)) {
                     pstmt.setInt(1, orderId);
@@ -112,7 +109,7 @@
     }
     %>
     <div style="text-align: center; margin-bottom: 50px;">
-        <a href="index.jsp" class="btn">Return to Home</a>
+        <a href="home.jsp" class="btn">Return to Home</a>
     </div>
 </div>
 </body>

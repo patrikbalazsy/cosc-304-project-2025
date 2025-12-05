@@ -183,7 +183,7 @@ try (Connection con = DriverManager.getConnection(url, uid, pw)){
         <p style="margin-bottom: 20px;">Your products are being processed for shipment.</p>
 
         <a href="listorder.jsp" class="btn btn-primary">View Order History</a>
-        <a href="index.jsp" class="btn btn-secondary">Return to Catalog</a>
+        <a href="home.jsp" class="btn btn-secondary">Home</a>
     </div>
 <%
 
@@ -192,7 +192,7 @@ try (Connection con = DriverManager.getConnection(url, uid, pw)){
     <div class="confirm-container">
         <h3 style="color:red">Processing Error</h3>
         <p><%= e.getMessage() %></p>
-        <a href="index.jsp" class="btn btn-secondary">Return Home</a>
+        <a href="home.jsp" class="btn btn-secondary">Home</a>
     </div>
 <%
 }

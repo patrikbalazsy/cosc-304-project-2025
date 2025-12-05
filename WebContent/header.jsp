@@ -13,6 +13,7 @@
     <nav class="nav-links">
         
         <a href="customer.jsp">Profile</a>
+        <a href="showcart.jsp">Cart</a>
         <a href="listorder.jsp">Orders</a>
         <a href="admin.jsp">Admin</a>
         

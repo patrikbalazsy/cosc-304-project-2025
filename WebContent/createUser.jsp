@@ -111,7 +111,7 @@ function validate() {
 <body>
 
     <div class="content-container">
-        <h1>Initialize User Protocol</h1>
+        <h1>Create Account</h1>
         
         <div class="form-container">
             <form name="reg" method="post" action="validateCreateUser.jsp" onsubmit="return validate()">
@@ -137,11 +137,11 @@ function validate() {
 
                 <div class="input-row">
                     <input type="text" name="city" placeholder="City" required>
-                    <input type="text" name="state" placeholder="State" required>
+                    <input type="text" name="state" placeholder="State/Province" required>
                 </div>
 
                 <div class="input-row">
-                    <input type="text" name="postalCode" placeholder="Postal Code" required>
+                    <input type="text" name="postalCode" placeholder="Zip/Postal Code" required>
                     <input type="text" name="country" placeholder="Country" required>
                 </div>
                 

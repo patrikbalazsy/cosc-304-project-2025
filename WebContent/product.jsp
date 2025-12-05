@@ -135,10 +135,10 @@ try (Connection con = DriverManager.getConnection(url, uid, pw)) {
                         </p>
                         
                         <div class="action-row">
-                            <a href="<%= link %>" class="button btn-large">Add to card</a>
+                            <a href="<%= link %>" class="button btn-large">Add to cart</a>
                         </div>
                         <br>
-                        <a href="home.jsp" style="text-decoration: underline; color: #666;">&larr; Back to shop</a>
+                        <a href="home.jsp" style="text-decoration: underline; color: #666;">Back to shop</a>
                     </div>
                 </div>
 <%

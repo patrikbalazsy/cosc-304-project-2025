@@ -8,7 +8,7 @@
 
 <div class="content-container">
     <div class="form-container">
-        <h3 style="text-align: center;">System Access</h3>
+        <h3 style="text-align: center;">Login</h3>
 
         <%
         String msg = (String) session.getAttribute("loginMessage");
@@ -33,6 +33,8 @@
         <div style="margin-top: 20px; padding-top: 20px; border-top: 3px solid #000; text-align: center;">
             <p>New User? <a href="createUser.jsp" style="font-weight: 900; color: #000;">Create Account</a></p>
             <p><a href="forgotPassword.jsp" style="color: #666;">Forgot Password?</a></p>
+            <br>
+            <p><a href="home.jsp" style="font-weight: 900;font-size: 20px; color: #000;">Home</a></p>
         </div>
     </div>
 </div>

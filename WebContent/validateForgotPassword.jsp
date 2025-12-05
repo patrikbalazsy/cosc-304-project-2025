@@ -46,7 +46,7 @@
                         <h1 style="background: #fff; border: 2px dashed #000; padding: 20px; display: inline-block;">
                             <%= retrievedPassword %>
                         </h1>
-                        <p style="margin-top: 20px;"><em>(In a real production system, this would be emailed to <%= email %>)</em></p>
+                        <p style="margin-top: 20px;"><em>(NA <%= email %>)</em></p>
                         <br><br>
                         <a href="login.jsp" class="button">Proceed to Login</a>
                     </div>

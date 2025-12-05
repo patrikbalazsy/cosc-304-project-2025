@@ -57,7 +57,7 @@
     out.println("</table>");
 %>
 
-<p><a href="index.jsp">Home</a></p>
+<p><a href="home.jsp">Home</a></p>
 
 </body>
 </html>

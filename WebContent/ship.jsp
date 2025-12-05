@@ -9,7 +9,7 @@
 
 <html>
 <head>
-<title>67th Street Grocery Shipment Processing</title>
+<title>Cloud Eight Shipment Processing</title>
 </head>
 <body>
         
@@ -91,7 +91,7 @@
     }
 %>                                      
 
-<p><a href="index.jsp">Back to Home</a></p>
+<p><a href="home.jsp">Back to Home</a></p>
 
 </body>
 </html>

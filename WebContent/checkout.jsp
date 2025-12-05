@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>67th Street CheckOut Line</title>
+<title>Cloud Eight Checkout</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body style="text-align: center;">

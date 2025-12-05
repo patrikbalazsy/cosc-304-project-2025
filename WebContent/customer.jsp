@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Customer Profile</title>
+<title>User Profile</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 <style>
     /* Industrial Profile Styles */
@@ -51,7 +51,7 @@
             <div class="data-row"><div class="data-label">Country</div><div class="data-value"><%= rs.getString("country") %></div></div>
 
             <div style="display: flex; gap: 20px; justify-content: center;">
-                <a href="index.jsp" class="btn">Return Home</a>
+                <a href="home.jsp" class="btn">Return Home</a>
                 <a href="userProfile.jsp" class="btn" style="background: #000; color: #fff;">Edit Profile</a>
             </div>
         </div>

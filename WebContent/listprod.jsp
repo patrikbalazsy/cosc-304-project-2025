@@ -70,7 +70,7 @@
                             out.println("<div class='product-info-block'>");
                                 out.println("<div>"); 
                                     out.println("<h3 class='product-name'>" + productName + "</h3>");
-                                    out.println("<div class='product-meta'>ITEM #" + productId + " // STOCK</div>");
+                                    out.println("<div class='product-meta'>ITEM #" + productId + "</div>");
                                 out.println("</div>");
                                 
                                 out.println("<div class='product-actions'>");
