@@ -273,8 +273,6 @@ input[type="reset"]:hover {
     }
 }
 
-/* Append this to your existing style.css */
-
 /* --- ALERTS & MESSAGES --- */
 .error-message {
     color: #ff0000;
