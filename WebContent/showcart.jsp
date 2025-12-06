@@ -76,9 +76,9 @@
         <%
             if (productList.isEmpty()) {
         %>
-                <h3 style="text-align:center; padding: 50px;">System Status: Empty Load</h3>
+                <h3 style="text-align:center; padding: 50px;">Cart Empty</h3>
                 <div style="text-align:center;">
-                    <a href="home.jsp" class="btn btn-secondary">Return to Catalog</a>
+                    <a href="home.jsp" class="btn btn-secondary">Return to Shop</a>
                 </div>
         <%
             } else {

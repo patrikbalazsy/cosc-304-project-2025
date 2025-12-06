@@ -34,7 +34,15 @@
 
         String sql = "SELECT productName, productPrice, productId, productImageURL FROM product";
         
+        boolean hasSearch = (name != null && !name.trim().isEmpty());
+
+        if (hasSearch) {
+            sql += " WHERE productName LIKE ?";
+        }
+
+
         // Set to price from lowest to highest first
+    
         sql += " ORDER BY productPrice ASC";
 
         try (PreparedStatement stmt = con.prepareStatement(sql)) {
